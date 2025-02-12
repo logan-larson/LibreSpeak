@@ -27,7 +27,7 @@
     }
 </script>
 
-<main class="container mx-auto p-4">
+<main class="container mx-auto p-4 bg-gray-900">
     <h1 class="text-2xl font-bold mb-4 text-center">LibreSpeak</h1>
     
     <form on:submit|preventDefault={handleSubmit} class="space-y-4 flex flex-col gap-2">
