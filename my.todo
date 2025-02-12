@@ -1,0 +1,26 @@
+
+Phase 1:
+Core MVP (Basic Functionality)
+Goal: Get the basic self-hosted TTS functionality working.
+    ☐ Set up SvelteKit + Docker
+        ✔ Initialize a SvelteKit project @done(25-02-12 08:54)
+        ☐ Create a Dockerfile for easy deployment
+        ☐ Deploy on Coolify
+    ☐ Implement Eleven Labs API integration
+        ✔ Env vars for API Key @done(25-02-12 08:53)
+        ✔ Build the frontend with a text input box and a "Generate Speech" button @done(25-02-12 08:53)
+        ✔ Send request to server with text input @done(25-02-12 08:53)
+        ✔ Use 11Labs to convert to audio @done(25-02-12 08:53)
+        ☐ Store generated audio files locally
+        ✔ Send audio back to user (stream or file?) @done(25-02-12 08:53)
+            Stream for now
+        ✔ Simple playback feature @done(25-02-12 08:54)
+
+Phase 2:
+Custom S3 Bucket Support and sharing audio files.
+
+Phase 3:
+More upload types (webpage, pdf, txt)
+
+Phase 4:
+Coolify listing
