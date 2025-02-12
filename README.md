@@ -35,7 +35,7 @@ ELEVENLABS_API_KEY=your_api_key_here
 docker compose up -d
 ```
 
-The application will be available at `http://localhost:3000`
+The application will be available at `http://localhost:3042`
 
 ## Local Development
 

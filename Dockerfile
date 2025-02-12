@@ -15,5 +15,5 @@ COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/.env ./.env
 RUN npm install --production
-EXPOSE 3000
+EXPOSE 3042
 CMD ["node", "build"] 
