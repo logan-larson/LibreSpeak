@@ -1,38 +1,114 @@
-# sv
+# LibreSpeak
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A self-hosted Text-to-Speech service powered by ElevenLabs API and SvelteKit.
 
-## Creating a project
+## Features
+- Simple, clean interface for text-to-speech conversion
+- Self-hosted solution for privacy and control
+- Built with modern web technologies (SvelteKit, TailwindCSS)
+- Docker support for easy deployment
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Prerequisites
+- Node.js 20+ (for local development)
+- Docker and Docker Compose (for deployment)
+- ElevenLabs API key ([Get one here](https://elevenlabs.io/))
+
+## Quick Start (Docker)
+
+1. Clone the repository:
+
 
 ```bash
-# create a new project in the current directory
-npx sv create
+git clone https://github.com/logan-larson/LibreSpeak.git
 
-# create a new project in my-app
-npx sv create my-app
+cd LibreSpeak
 ```
 
-## Developing
+2. Create a `.env` file with your ElevenLabs API key:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash
+ELEVENLABS_API_KEY=your_api_key_here
+```
 
+3. Build and run with Docker Compose:
+```bash
+docker compose up -d
+```
+
+The application will be available at `http://localhost:3000`
+
+## Local Development
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Create a `.env` file with your ElevenLabs API key as shown above.
+
+3. Start the development server:
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+4. Visit `http://localhost:5173` in your browser.
 
-To create a production version of your app:
+## Contributing
 
+We welcome contributions! Here's how you can help:
+
+1. Fork the repository
+2. Create a new branch for your feature:
+```bash
+git checkout -b feature/amazing-feature
+```
+
+3. Make your changes and commit them:
+```bash
+git commit -m 'Add some amazing feature'
+```
+
+4. Push to your branch:
+```bash
+git push origin feature/amazing-feature
+```
+
+5. Open a Pull Request
+
+### Development Guidelines
+- Follow the existing code style
+- Add tests for new features
+- Update documentation as needed
+- Make sure all tests pass:
+```bash
+npm run test
+```
+
+## Testing
+
+Run the test suite:
+```bash
+npm run test
+```
+
+## Building for Production
+
+Build the application:
 ```bash
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+Preview the production build:
+```bash
+npm run preview
+```
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## License
+
+[MIT License](LICENSE)
+
+## Acknowledgments
+- [ElevenLabs](https://elevenlabs.io/) for their excellent TTS API
+- [SvelteKit](https://kit.svelte.dev/) for the web framework
+- All our contributors!
+
