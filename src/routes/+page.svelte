@@ -1,7 +1,10 @@
 <script lang="ts">
+    import { voices } from '$lib/voices';
+    
     let text = '';
     let isLoading = false;
     let audioUrl: string | null = null;
+    let selectedVoice = voices[0].id;
 
     async function handleSubmit() {
         isLoading = true;
@@ -11,7 +14,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ text })
+                body: JSON.stringify({ text, voiceId: selectedVoice })
             });
             
             if (!response.ok) throw new Error('Failed to generate speech');
@@ -32,13 +35,30 @@
     
     <form on:submit|preventDefault={handleSubmit} class="space-y-4 flex flex-col gap-2">
         <div>
+            <label for="voice" class="block text-sm font-medium mb-2">Select Voice</label>
+            <select
+                id="voice"
+                bind:value={selectedVoice}
+                class="w-full p-2 border rounded bg-gray-800 text-white"
+            >
+                {#each voices as voice}
+                    <option value={voice.id}>
+                        {voice.name}
+                    </option>
+                {/each}
+            </select>
+            <p class="text-sm text-gray-400 mt-1">
+                {voices.find(v => v.id === selectedVoice)?.description}
+            </p>
+        </div>
+
+        <div>
             <textarea
                 bind:value={text}
                 placeholder="Enter text to convert to speech..."
-                class="w-full p-2 border rounded"
+                class="w-full p-2 border rounded bg-gray-800 text-white"
                 rows="4"
-            >
-            </textarea>
+            />
         </div>
         
         <button
@@ -52,7 +72,7 @@
     
     {#if audioUrl}
         <div class="mt-4">
-            <audio controls src={audioUrl}>
+            <audio controls src={audioUrl} class="w-full">
                 Your browser does not support the audio element.
             </audio>
         </div>

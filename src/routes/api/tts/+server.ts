@@ -3,7 +3,7 @@ import { ElevenLabsClient } from 'elevenlabs';
 import { env } from '$env/dynamic/private';
 
 export const POST: RequestHandler = async ({ request }) => {
-    const { text } = await request.json();
+    const { text, voiceId } = await request.json();
     
     if (!text) {
         return new Response('Text is required', { status: 400 });
@@ -15,7 +15,7 @@ export const POST: RequestHandler = async ({ request }) => {
         });
 
         const audioStream = await client.textToSpeech.convertAsStream(
-            "JBFqnCBsd6RMkjVDRZzb",
+            voiceId,
             {
                 output_format: "mp3_44100_128",
                 text,
