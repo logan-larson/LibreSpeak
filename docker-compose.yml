@@ -1,9 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      args:
-        - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY}
+    build: .
     ports:
       - "3042:3042"
     environment:

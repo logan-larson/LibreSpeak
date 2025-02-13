@@ -1,6 +1,6 @@
 import type { RequestHandler } from './$types';
 import { ElevenLabsClient } from 'elevenlabs';
-import { ELEVENLABS_API_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 export const POST: RequestHandler = async ({ request }) => {
     const { text } = await request.json();
@@ -11,7 +11,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
     try {
         const client = new ElevenLabsClient({
-            apiKey: ELEVENLABS_API_KEY
+            apiKey: env.ELEVENLABS_API_KEY
         });
 
         const audioStream = await client.textToSpeech.convertAsStream(
