@@ -1,5 +1,6 @@
 <script lang="ts">
     import { voices } from '$lib/voices';
+    import LibreSpeakLogo from '$lib/assets/LibreSpeakLogo.png';
     
     let text = '';
     let isLoading = false;
@@ -95,7 +96,10 @@
 </script>
 
 <main class="container mx-auto p-4 bg-gray-900">
-    <h1 class="text-2xl font-bold mb-4 text-center">LibreSpeak</h1>
+    <div class="flex items-center justify-center mb-4">
+        <img src={LibreSpeakLogo} alt="LibreSpeak Logo" class="w-8 h-8 inline-block mr-2 mb-2" />
+        <h1 class="text-3xl font-bold mb-4 text-center">LibreSpeak</h1>
+    </div>
     
     <form on:submit|preventDefault={handleSubmit} class="space-y-4 flex flex-col gap-2">
         <div>
