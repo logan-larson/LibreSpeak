@@ -1,4 +1,4 @@
-const MAX_CHUNK_SIZE = 250;
+const MAX_CHUNK_SIZE = 1000;
 
 export function splitTextIntoChunks(text: string): string[] {
     const chunks: string[] = [];

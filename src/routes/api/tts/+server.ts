@@ -33,44 +33,69 @@ export const POST: RequestHandler = async ({ request }) => {
         });
 
         const textChunks = splitTextIntoChunks(text);
-        console.log(`Processing ${textChunks.length} chunks`);
-
         const audioBuffers: Buffer[] = [];
+        const encoder = new TextEncoder();
 
-        for (let i = 0; i < textChunks.length; i++) {
-            console.log(`Converting chunk ${i + 1}/${textChunks.length}`);
-            
-            const previousText = i > 0 
-                ? getLastNWords(textChunks.slice(0, i).join(' '), 10)
-                : '';
-            
-            const nextText = i < textChunks.length - 1 
-                ? getFirstNWords(textChunks.slice(i + 1).join(' '), 10)
-                : '';
+        // Create a transform stream to handle both progress events and audio data
+        const { readable, writable } = new TransformStream();
+        const writer = writable.getWriter();
 
-            const audioStream = await client.textToSpeech.convertAsStream(
-                voiceId,
-                {
-                    output_format: "mp3_44100_128",
-                    text: textChunks[i],
-                    previous_text: previousText,
-                    next_text: nextText,
-                    model_id: "eleven_multilingual_v2",
+        // Process chunks and send progress updates
+        (async () => {
+            try {
+                // Send initial progress
+                await writer.write(
+                    encoder.encode(`data: ${JSON.stringify({
+                        type: 'progress',
+                        current: 0,
+                        total: textChunks.length
+                    })}\n\n`)
+                );
+
+                for (let i = 0; i < textChunks.length; i++) {
+                    const buffer = await streamToBuffer(
+                        await client.textToSpeech.convertAsStream(
+                            voiceId,
+                            {
+                                output_format: "mp3_44100_128",
+                                text: textChunks[i],
+                                previous_text: i > 0 ? getLastNWords(textChunks[i-1], 10) : '',
+                                next_text: i < textChunks.length - 1 ? getFirstNWords(textChunks[i+1], 10) : '',
+                                model_id: "eleven_multilingual_v2",
+                            }
+                        )
+                    );
+                    
+                    audioBuffers.push(buffer);
+
+                    // Send progress update
+                    await writer.write(
+                        encoder.encode(`data: ${JSON.stringify({
+                            type: 'progress',
+                            current: i + 1,
+                            total: textChunks.length
+                        })}\n\n`)
+                    );
                 }
-            );
-            
-            const buffer = await streamToBuffer(audioStream);
-            console.log(`Chunk ${i + 1} size: ${buffer.length} bytes`);
-            console.log(`Context - Previous: "${previousText}", Next: "${nextText}"`);
-            audioBuffers.push(buffer);
-        }
 
-        const finalBuffer = Buffer.concat(audioBuffers);
-        console.log(`Final audio size: ${finalBuffer.length} bytes`);
+                // Send the final audio data
+                const finalBuffer = Buffer.concat(audioBuffers);
+                await writer.write(
+                    encoder.encode(`data: ${JSON.stringify({
+                        type: 'audio',
+                        data: Array.from(finalBuffer)
+                    })}\n\n`)
+                );
+            } finally {
+                await writer.close();
+            }
+        })();
 
-        return new Response(finalBuffer, {
+        return new Response(readable, {
             headers: {
-                'Content-Type': 'audio/mpeg'
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive'
             }
         });
     } catch (error) {
