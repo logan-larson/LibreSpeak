@@ -13,5 +13,10 @@ export const voices = [
         id: 'sc2QKow3sXHRcewMadRf',
         name: 'Theodore Roosevelt',
         description: '26th President of the United States'
+    },
+    {
+        id: '9iinEITd3NDE1DiPjIo9',
+        name: 'Logan Larson',
+        description: 'Creator of LibreSpeak'
     }
 ]; 

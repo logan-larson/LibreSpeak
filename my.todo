@@ -1,4 +1,11 @@
 
+Polish Tasks:
+    ☐ Allow long text inputs to be generated
+        ✔ Break text input down into logical chunks @done(25-02-18 21:49)
+        ✔ Generate chunks of audio @done(25-02-18 21:49)
+        ✔ String the chunks of audio together and return as one file @done(25-02-18 22:33)
+        ☐ Use previous chunk and next chunk to make audio flow using 11Labs API spec
+
 Phase 1:
 Core MVP (Basic Functionality)
 Goal: Get the basic self-hosted TTS functionality working.
